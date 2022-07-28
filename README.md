@@ -102,3 +102,8 @@ The tool supports the following coins with the indicated derivation paths:
 
 ## Disclaimer
 SeedSearch.py aims to find seeds stored in files. Its cearch has not to be considered exhaustive, because mnemonic seeds can be easily hidden placed other words between the ones composing the mnemonic, scrambling letters, etc.
+
+## Credits & Donations
+If you appreciate this work visit https://anubitux.org and consider making a donation
+- BTC: 1AnUbiYpuFsGrc1JFxFCh5K9tXFd1BXPg
+- XMR: 87PTU58siKNb3WWXcP4Hq4CmCb7kMQUsEiUWFT7SvvMMUqVw9XXFGrJZqmnGvuJLGtLoRuEqovTG4SWqkPr8YLopTSxZkkL
