@@ -5,14 +5,15 @@ It is part of the bigger project Anu₿itux: more info at https://anubitux.org.
 
 ## Overview
 It allows the user to provide a path and then scans all the files looking for sequencies of words that could be BIP39 mnemonic seeds. Then it checks if the found sequencies are valid mnemonic seeds and prints it in the output.
-When seeds are found, the tool asks the user if he wants to derive addresses and check if the seeds have been used.
+With seedsearchpro.py, when seeds are found, users can decide if they want to derive addresses and check if the seeds have been used.
+At line 38 of seedsearchpro.py it is also possible to add a blockcypher API key to avoid reaching API limits
 ### Warning
-Running issued could be encountered due to APIs limits. To check only a few seeds that could be more valuable, use SeedCheck.py
+Running issued could be encountered due to APIs limits. To check only a few seeds that could be more valuable, use [SeedCheck.py](https://github.com/ASeriousMister/SeedCheck.py)
 
 
 ## Installation
-The tool was tested in Ubuntu 20.04 with Python3.8.
-I suggest tu run the tool in his own virtual enviroment.
+The tool was tested in Ubuntu 20.04 with Python3.8 and Ubuntu 22.04 with Python3.10.
+I suggest tu run the tool in his own virtual environment.
 Python shoul be installed by default. If not so, update your repositories
 ```
 sudo apt update
@@ -29,7 +30,7 @@ Now clone the github repository
 ```
 git clone https://github.com/ASeriousMister/SeedSearch.py
 ```
-and install python virtual enviroments
+and install python virtual environments
 ```
 pip3 install virtualenv
 ```
@@ -37,7 +38,7 @@ Now move to SeedCheck.py's directory,
 ```
 cd SeedCheck.py
 ```
-create a virtual enviroment (in the example named scve, but you can choose your preferred name)
+create a virtual environment (in the example named scve, but you can choose your preferred name)
 ```
 virtualenv ssve
 ```
@@ -45,7 +46,7 @@ and activate it
 ```
 source ssve/bin/activate
 ```
-The name of the virtual enviroment should appear, in brackets, on the left of your command line. 
+The name of the virtual environment should appear, in brackets, on the left of your command line. 
 Now you can install the dependencies
 ```
 pip3 install -r requirements.txt
