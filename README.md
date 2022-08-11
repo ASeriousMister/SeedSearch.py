@@ -99,6 +99,25 @@ The tool supports the following coins with the indicated derivation paths:
 - [BIPs](https://github.com/bitcoin/bips)
 - [HD wallet](https://pypi.org/project/hdwallet/)
 
+### Troubleshooting
+The tool may encounter some issues running with Ubuntu 22.04, due to incompatibility with ripemd160 hashes used by the hdwallet library.
+To solve this you need to edit the /etc/ssl/openssl.cnf file, making sure that it contains all the following lines:
+```
+openssl_conf = openssl_init
+
+[openssl_init]
+providers = provider_sect
+
+[provider_sect]
+default = default_sect
+legacy = legacy_sect
+
+[default_sect]
+activate = 1
+
+[legacy_sect]
+activate = 1
+```
 
 ## Disclaimer
 SeedSearch.py aims to find seeds stored in files. Its cearch has not to be considered exhaustive, because mnemonic seeds can be easily hidden placed other words between the ones composing the mnemonic, scrambling letters, etc.
