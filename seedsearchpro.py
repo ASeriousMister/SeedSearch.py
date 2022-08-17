@@ -10,6 +10,8 @@ import blockcypher
 import os
 import argparse
 import time
+import docx
+from PyPDF2 import PdfReader
 
 
 class color:
@@ -34,6 +36,12 @@ parser = argparse.ArgumentParser(description='Mnemonic seed finder')
 parser.add_argument('-d', metavar='directory', type=str, required=True, help='Directory to scan')
 args = parser.parse_args()
 directory = args.d
+
+
+# Quits if directory does not exist
+if not os.path.exists(directory):
+    quit(color.RED + 'Directory does not exist!' + color.END)
+
 
 blockcypherAPI = None
 
@@ -74,7 +82,6 @@ def is_connected(host='http://google.com'):
         return True
     except:
         return False
-
 
 # Creates list with addresses derived in the specifued language
 def btc_list_der(lang, how_many):
@@ -343,6 +350,13 @@ def check_word(word, language):
         else:
             f.close()
             return False
+# Get text from docx files
+def getText(filename):
+    doc = docx.Document(filename)
+    fullText = []
+    for para in doc.paragraphs:
+        fullText.append(para.text)
+    return '\n'.join(fullText)
 
 
 # Get the list of all files in the fiven path
@@ -358,18 +372,46 @@ seed2check = []
 
 n_files = len(listOfFiles)
 print(color.BLUE + f'There are {n_files} files to scan' + color.END)
+
 i = 0
 # iterate through all the files
 while i < n_files:
-    # make a string with dirName + listOfFiles[i]
-    f = open(listOfFiles[i], 'r')
-#    print(f'checking: {listOfFiles[i]}')
+    # manage docx files
+    if '.docx' in listOfFiles[i]:
+        with open(directory + 'fgrtgdtegd', 'w') as f:  # random filename to avoid conflicts
+            f.write(getText(listOfFiles[i]))
+        f.close()
+        f = open(directory + 'fgrtgdtegd', 'r')
+        f.seek(0)
+    # manage pdf files
+    elif '.pdf' in listOfFiles[i]:
+        reader = PdfReader(listOfFiles[i])
+        text = ""
+        for page in reader.pages:
+            text += page.extract_text() + "\n"
+        with open(directory + 'fgrtgdtegd', 'w') as f:
+            f.write(text)
+        f.close()
+        f = open(directory + 'fgrtgdtegd', 'r')
+        f.seek(0)
+    # managing other files like txt, csv, html, json, etc.
+    else:
+        # Try if file can't be handled
+        try:
+            with open(listOfFiles[i], 'r') as tc:
+                content = tc.read()
+        except UnicodeDecodeError:
+            print(color.YELLOW + '\nUnable to open ' + listOfFiles[i] + color.END)
+            i += 1
+            continue
+        f = open(listOfFiles[i], 'r')
     language = ''
-    for line in f:   # reads the lines
+    line = f.readline()
+    while line:   # reads the lines
         for word in line.split():
             checking = True  # used to check other wordlists if a word is not in the current wordlist
             while checking:
-                if (len(temp_seed) == 0):
+                if len(temp_seed) == 0:
                     # identify language
                     language = check_lang(word)
                     if language == 'none':
@@ -383,7 +425,7 @@ while i < n_files:
                         checking = False
                     else:
                         temp_seed = []
-                if ((len(temp_seed) > 11) and (len(temp_seed) % 3 == 0)):
+                if (len(temp_seed) > 11) and (len(temp_seed) % 3 == 0):
                     temp_seed_str = ' '.join(temp_seed)
                     # adds only valid bip39 seeds to output
                     if is_mnemonic(temp_seed_str, language):
@@ -392,16 +434,26 @@ while i < n_files:
                         temp_seed_str += ' (' + langprint + ')'
                         seed_out.append(temp_seed_str)
                         seed2check.append(temp_seed_str)
+                        temp_seed = []
+                elif len(temp_seed) > 24:
+                    temp_seed = []
+        line = f.readline()
+
 # Printing the output
     pr = 0
-    if (len(seed_out) > 0):
+    if len(seed_out) > 0:
         print(color.DARKCYAN + f'\n=== Seeds found in {listOfFiles[i]} ===' + color.END)
         while pr < len(seed_out):
             pr += 1
             prpr = str(pr)
             print(prpr + ' ' + seed_out[pr - 1])
     seed_out = []
+    f.close()
     i += 1
+
+# delete temporary file
+if os.path.isfile(directory + 'fgrtgdtegd'):
+    os.remove(directory + 'fgrtgdtegd')
 
 # declaring empty lists
 btc_list = []
@@ -632,7 +684,6 @@ if (len(seed2check) > 0):
                             print(color.GREEN + '--- The given seed was used to derive ZCash addresses with derivation path m/44\'/133\'/0\'/0\' ---' + color.END)
                     else:
                         i += 1
-
             if (online_found == False and online_check == True):
                 print(color.RED + '\nBip39 derivation path not found\n' + color.END)
             elif (online_found == True):
