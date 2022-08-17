@@ -350,6 +350,8 @@ def check_word(word, language):
         else:
             f.close()
             return False
+        
+
 # Get text from docx files
 def getText(filename):
     doc = docx.Document(filename)
