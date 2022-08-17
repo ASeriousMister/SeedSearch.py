@@ -2,3 +2,5 @@ hdwallet
 blockcypher
 argparse
 requests
+python-docx
+pypdf2
