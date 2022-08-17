@@ -174,6 +174,8 @@ def check_word(word, language):
         else:
             f.close()
             return False
+        
+
 # Get text from docx files
 def getText(filename):
     doc = docx.Document(filename)
@@ -263,6 +265,7 @@ while i < n_files:
                 elif len(temp_seed) > 24:
                     temp_seed = []
         line = f.readline()
+
 # Printing the output
     pr = 0
     if len(seed_out) > 0:
@@ -274,6 +277,7 @@ while i < n_files:
     seed_out = []
     f.close()
     i += 1
+
 # delete temporary file
 if os.path.isfile(directory + 'fgrtgdtegd'):
     os.remove(directory + 'fgrtgdtegd')
