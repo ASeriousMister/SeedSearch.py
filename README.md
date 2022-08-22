@@ -10,6 +10,8 @@ At line 38 of seedsearchpro.py it is also possible to add a blockcypher API key 
 ### Warning
 Running issued could be encountered due to APIs limits. To check only a few seeds that could be more valuable, use [SeedCheck.py](https://github.com/ASeriousMister/SeedCheck.py)
 
+## Tutorial
+[Here](https://anubitux.org/search-for-bip39-seeds-with-anubitux/) you can see how the tool works.
 
 ## Installation
 The tool was tested in Ubuntu 20.04 with Python3.8 and Ubuntu 22.04 with Python3.10.
