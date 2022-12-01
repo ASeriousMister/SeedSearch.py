@@ -43,7 +43,7 @@ if not os.path.exists(directory):
     quit(color.RED + 'Directory does not exist!' + color.END)
 
 
-blockcypherAPI = None
+blockcypherAPI = None   # if available, put your Blockcypher API here
 
 
 def add_der(sym, lang, seedl, psph, bip, coin, num, is_hardened):
@@ -628,7 +628,8 @@ if (len(seed2check) > 0):
                 while i < len(ltc_list):
                     ltc_tx = blockcypher.get_total_num_transactions(ltc_list[i], coin_symbol='ltc', api_key=blockcypherAPI)
                     # avoid blockcypher's limit of 3 calls per second
-                    time.sleep(400/1000)
+                    if blockcypherAPI is None:
+                        time.sleep(400/1000)
                     if ltc_tx != 0:
                         if i < how_many:
                             print(color.GREEN + '--- The given seed was used to derive Litecoin addresses with derivation path m/44\'/2\'/0\'/0 ---' + color.END)
@@ -657,7 +658,8 @@ if (len(seed2check) > 0):
                 while i < len(dash_list):
                     dash_tx = blockcypher.get_total_num_transactions(dash_list[i], coin_symbol='dash', api_key=blockcypherAPI)
                     # avoid blockcypher's limit of 3 calls per second
-                    time.sleep(400/1000)
+                    if blockcypherAPI is None:
+                        time.sleep(400/1000)
                     if dash_tx != 0:
                         if i < how_many:
                             print(color.GREEN + '--- The given seed was used to derive Dash addresses with derivation path m/44\'/5\'/0\'/0 ---' + color.END)
